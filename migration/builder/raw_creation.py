@@ -2,6 +2,7 @@ from src.adapters.driven.infra import db
 from src.adapters.driven.infra.models.address import Address
 from src.adapters.driven.infra.models.categories import Category
 from src.adapters.driven.infra.models.currencies import Currency
+from src.adapters.driven.infra.models.payment_metadata import PaymentMetadata
 from src.adapters.driven.infra.models.payment_methods import PaymentMethod
 from src.adapters.driven.infra.models.payments import Payment
 from src.adapters.driven.infra.models.persona import Persona
@@ -27,6 +28,7 @@ def create_tables():
             Currency,
             PaymentMethod,
             Payment,
+            PaymentMetadata,
             Persona,
             ProductComponent,
             Product,
