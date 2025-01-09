@@ -10,7 +10,8 @@ ENV PATH="/root/.local/bin:${PATH}"
 ENV POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache 
+    POETRY_CACHE_DIR=/tmp/poetry_cache \ 
+    POETRY_DONT_LOAD_DOTENV=1
 RUN python3 -m pip install poetry
 
 WORKDIR /app
