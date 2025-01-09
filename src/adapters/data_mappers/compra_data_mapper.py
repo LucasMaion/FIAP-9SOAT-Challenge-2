@@ -42,9 +42,7 @@ class CompraEntityDataMapper:
         )
 
     @classmethod
-    def from_domain_to_db(
-        cls, compra: PartialCompraEntity, payment: Optional[PagamentoEntity] = None
-    ):
+    def from_domain_to_db(cls, compra: PartialCompraEntity):
         purchase_selected_products = (
             [
                 {
@@ -77,6 +75,5 @@ class CompraEntityDataMapper:
             "total_value": compra.total.value,
             "currency": compra.total.currency.id,
             "client": compra.client.id,
-            "payment": payment.id if payment else None,
             "purchase_selected_products": purchase_selected_products,
         }

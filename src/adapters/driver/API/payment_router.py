@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from loguru import logger
+from peewee import DoesNotExist
 from src.adapters.driven.infra.ports.orm_meio_de_pagamento_query import (
     OrmMeioDePagamentoQuery,
 )
@@ -16,6 +17,7 @@ from src.adapters.driven.payment_providers.functions.get_payment_provider_from_s
 from src.adapters.driven.payment_providers.providers.default_provider import (
     DefaultPaymentProvider,
 )
+from src.adapters.driver.API.schemas.create_payment_schema import CreatePaymentSchema
 from src.core.application.services.pagamento_service import PagamentoService
 from src.core.domain.aggregates.pagamento_aggregate import PagamentoAggregate
 from src.core.domain.entities.meio_de_pagamento_entity import MeioDePagamentoEntity
@@ -27,8 +29,8 @@ router = APIRouter(
 )
 
 
-@router.post("/{pedido_id}/{payment_method_id}")
-async def make_payment(pedido_id: int, payment_method_id: int) -> PagamentoAggregate:
+@router.post("/")
+async def initiate_payment(payment: CreatePaymentSchema) -> PagamentoAggregate:
     try:
         pedido_command = PagamentoService(
             OrmPagamentoRepository(),
@@ -37,12 +39,12 @@ async def make_payment(pedido_id: int, payment_method_id: int) -> PagamentoAggre
             OrmMeioDePagamentoQuery(),
             DefaultPaymentProvider(),
         )
-        payment_method = pedido_command.get_payment_method(payment_method_id)
+        payment_method = pedido_command.get_payment_method(payment.payment_method_id)
         correct_payment_provider = get_payment_provider_from_sys_name(
             payment_method.sys_name
         )
         pedido_command.payment_provider = correct_payment_provider()
-        return pedido_command.process_purchase_payment(pedido_id, payment_method_id)
+        return pedido_command.initiate_purchase_payment(**payment.dict())
     except (ValueError, AttributeError) as e:
         logger.exception(e)
         raise HTTPException(status_code=400, detail=str(e))
@@ -66,5 +68,28 @@ async def list_payment_methods() -> list[MeioDePagamentoEntity]:
         logger.exception(e)
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
+        logger.exception(e)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/{payment_id}")
+async def get_payment(payment_id: str) -> PagamentoAggregate | None:
+    try:
+        pedido_command = PagamentoService(
+            OrmPagamentoRepository(),
+            OrmPedidoRepository(InMemoryCacheService()),
+            OrmPedidoQuery(),
+            OrmMeioDePagamentoQuery(),
+            DefaultPaymentProvider(),
+        )
+        return pedido_command.get_payment(payment_id)
+    except DoesNotExist as e:
+        logger.exception(e)
+        raise HTTPException(status_code=400, detail="Item não localizado")
+    except (ValueError, AttributeError, DoesNotExist) as e:
+        logger.exception(e)
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        print(type(e))
         logger.exception(e)
         raise HTTPException(status_code=500, detail=str(e))

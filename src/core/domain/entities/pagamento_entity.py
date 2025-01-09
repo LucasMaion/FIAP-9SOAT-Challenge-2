@@ -10,6 +10,8 @@ class PagamentoEntity(Entity):
     payment_method: MeioDePagamentoEntity
     payment_value: PrecoValueObject
     status: PagamentoStatus
+    payment_method_metadata_id: Optional[int] = None
+    webhook_url: Optional[str] = None
 
 
 class PartialPagamentoEntity(PartialEntity, PagamentoEntity):

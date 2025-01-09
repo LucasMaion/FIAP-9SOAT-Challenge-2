@@ -23,9 +23,7 @@ class PedidoRepository(Repository, ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def update(
-        self, pedido: CompraEntity, payment: Optional[PagamentoEntity] = None
-    ) -> PedidoAggregate:
+    def update(self, pedido: CompraEntity) -> PedidoAggregate:
         raise NotImplementedError()
 
     @abstractmethod

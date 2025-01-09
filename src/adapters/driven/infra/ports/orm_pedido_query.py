@@ -111,6 +111,7 @@ class OrmPedidoQuery(PedidoQuery):
                 join_type=JOIN.LEFT_OUTER,
             )
             .where(*queries)
+            .distinct()
         )
         parsed_result = [
             PedidoAggregateDataMapper.from_db_to_domain(res) for res in result

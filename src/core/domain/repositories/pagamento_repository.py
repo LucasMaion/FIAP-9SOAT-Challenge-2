@@ -10,3 +10,11 @@ class PagamentoRepository(Repository, ABC):
     @abstractmethod
     def create(self, payment: PartialPagamentoEntity) -> PagamentoAggregate:
         raise NotImplementedError()
+
+    @abstractmethod
+    def get(self, payment_id: int) -> PagamentoAggregate | None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def update(self, payment: PartialPagamentoEntity) -> PagamentoAggregate:
+        raise NotImplementedError()
