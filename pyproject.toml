@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fiap-9soat-challenge-1"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["Lucas Maion <lucasmgois@outlook.com>"]
 license = "MIT"
