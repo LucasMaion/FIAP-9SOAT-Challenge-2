@@ -19,6 +19,8 @@ from src.adapters.driver.API import (
     pedido_router,
     produto_router,
     queue_router,
+    maintenance_router,
+    web_hook_example_router,
 )
 
 
@@ -67,3 +69,5 @@ app.include_router(produto_router.router)
 app.include_router(pedido_router.router)
 app.include_router(payment_router.router)
 app.include_router(queue_router.router)
+app.include_router(maintenance_router.router)
+app.include_router(web_hook_example_router.router)
