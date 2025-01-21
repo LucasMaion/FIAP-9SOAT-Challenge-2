@@ -156,12 +156,13 @@ Status válidos para atualizar na fila de pedidos:
 - PRONTO_PARA_ENTREGA = 7
 - ENTREGUE = 8
 - FINALIZADO = 9
-## Anexo
 
-[Documentação original da Fase 1](/documentation/Pos_tech%20-%20Fase%201%20-%20Tech%20Challenge%20Fast%20Food.pdf)
-[Documentação original da Fase 2](/documentation/Postech%20-%20Fase%202%20-%20Tech%20Challenge.pdf)
-[Event Storming E Refinamento Técnico](https://miro.com/app/board/uXjVLf9MJLo=/?share_link_id=933574423173)
-[Outras documentações](https://www.notion.so/101117753c9f80cbb28dd5665c721433?v=101117753c9f800b95da000c73dea574&pvs=4)
-[Arquitetura Simplificada](/documentation/arquiteturas%20simplificadas.png)
-[Domain StoryTelling](/documentation/Domain%20Storytelling.png)
-[Infraestrutura](/documentation/infraestrutura.png)
+## Anexo
+- [Documentação original da Fase 1](/documentation/Pos_tech%20-%20Fase%201%20-%20Tech%20Challenge%20Fast%20Food.pdf)
+- [Documentação original da Fase 2](/documentation/Postech%20-%20Fase%202%20-%20Tech%20Challenge.pdf)
+- [Event Storming E Refinamento Técnico](https://miro.com/app/board/uXjVLf9MJLo=/?share_link_id=933574423173)
+- [Outras documentações](https://www.notion.so/101117753c9f80cbb28dd5665c721433?v=101117753c9f800b95da000c73dea574&pvs=4)
+- [Arquitetura Simplificada](/documentation/arquiteturas%20simplificadas.png)
+- [Domain StoryTelling](/documentation/Domain%20Storytelling.png)
+- [Infraestrutura](/documentation/infraestrutura.png)
+- [Video de demonstração](https://youtu.be/RPlWJ2Cw-xU)
