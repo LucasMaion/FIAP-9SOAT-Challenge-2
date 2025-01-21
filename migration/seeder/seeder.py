@@ -118,6 +118,8 @@ def _seed_payment_methods() -> int:
     payment_method = PaymentMethod(
         name="Mercado Pago QR Code",
         sys_name="DefaultPaymentProvider",
+        internal_comm_method_name="PaymentEvent.internal_finalize_payment",
+        internal_comm_delay=5,
         description="Pagamento para processar pelo mercado pago, cliente escaneia o QR Code para realizar transação.",
         is_active=True,
     )
