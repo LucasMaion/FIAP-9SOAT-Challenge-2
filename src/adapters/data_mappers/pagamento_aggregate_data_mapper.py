@@ -10,7 +10,7 @@ class PagamentoAggregateDataMapper:
         return PagamentoAggregate(
             purchase=(
                 CompraEntityDataMapper.from_db_to_domain(payment.purchase)
-                if payment.purchase
+                if hasattr(payment, "purchase")
                 else None
             ),
             payment=PagamentoEntityDataMapper.from_db_to_domain(payment),

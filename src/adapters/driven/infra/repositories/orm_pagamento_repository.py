@@ -23,7 +23,13 @@ class OrmPagamentoRepository(OrmRepository, PagamentoRepository):
         payment = Payment.get_by_id(payment_id)
         return PagamentoAggregateDataMapper.from_db_to_domain(payment)
 
-    def update(self, payment: PartialPagamentoEntity) -> PedidoAggregate:
-        db_item = PagamentoEntityDataMapper.from_domain_to_db(payment)
-        payment: Payment = Payment.update(**db_item)
+    def update(
+        self, payment: PartialPagamentoEntity, purchase: PartialCompraEntity
+    ) -> PedidoAggregate:
+        db_item = PagamentoEntityDataMapper.from_domain_to_db(payment, purchase)
+        update_query: Payment = Payment.update(**db_item).where(
+            Payment.id == db_item["id"]
+        )
+        update_query.execute()
+        payment = Payment.get_by_id(db_item["id"])
         return PagamentoAggregateDataMapper.from_db_to_domain(payment)

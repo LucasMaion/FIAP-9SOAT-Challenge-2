@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import List
 
+from src.adapters.driven.events.interfaces.notification_service import (
+    NotificationService,
+)
 from src.adapters.driven.payment_providers.interfaces.payment_provider import (
     PaymentProvider,
 )
@@ -20,12 +23,14 @@ class IPagamentoService(ABC):
         purchase_query: PedidoQuery,
         meio_de_pagamento_query: MeioDePagamentoQuery,
         payment_provider: PaymentProvider,
+        notification_services: List[NotificationService],
     ):
         self.payment_repository = pagamento_repository
         self.purchase_query = purchase_query
         self.payment_provider = payment_provider
         self.meio_de_pagamento_query = meio_de_pagamento_query
         self.pedido_repository = pedido_repository
+        self.notification_services = notification_services
 
     @abstractmethod
     def initiate_purchase_payment(

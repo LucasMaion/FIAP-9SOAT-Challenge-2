@@ -14,4 +14,6 @@ class MeioDePagamentoEntityDataMapper:
             name=payment_method.name,
             description=payment_method.description,
             is_active=payment_method.is_active,
+            internal_comm_method_name=payment_method.internal_comm_method_name,
+            internal_comm_delay=payment_method.internal_comm_delay,
         )

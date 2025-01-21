@@ -21,7 +21,41 @@ from src.core.helpers.options.pedido_find_options import PedidoFindOptions
 
 class OrmPedidoQuery(PedidoQuery):
     def get(self, item_id: int) -> PedidoAggregate:
-        product: Purchase = Purchase.select().where(Purchase.id == item_id)
+        product: Purchase = (
+            Purchase.select()
+            .where(Purchase.id == item_id)
+            .join(
+                Currency,
+                join_type=JOIN.LEFT_OUTER,
+            )
+            .switch(Purchase)
+            .join(
+                Persona,
+                join_type=JOIN.LEFT_OUTER,
+            )
+            .switch(Purchase)
+            .join(
+                Payment,
+                join_type=JOIN.LEFT_OUTER,
+            )
+            .switch(Purchase)
+            .join(
+                PurchaseSelectedProducts,
+                on=(PurchaseSelectedProducts.purchase == Purchase.id),
+                join_type=JOIN.LEFT_OUTER,
+            )
+            .join(
+                SelectedProduct,
+                on=(SelectedProduct.product == PurchaseSelectedProducts.id),
+                join_type=JOIN.LEFT_OUTER,
+            )
+            .join(
+                SelectedProductComponent,
+                on=(SelectedProductComponent.selected_product == SelectedProduct.id),
+                join_type=JOIN.LEFT_OUTER,
+            )
+            .distinct()
+        )
         parsed_result = [
             PedidoAggregateDataMapper.from_db_to_domain(res) for res in product
         ]
@@ -62,6 +96,7 @@ class OrmPedidoQuery(PedidoQuery):
                 on=(SelectedProductComponent.selected_product == SelectedProduct.id),
                 join_type=JOIN.LEFT_OUTER,
             )
+            .distinct()
         )
         parsed_result = [
             PedidoAggregateDataMapper.from_db_to_domain(res) for res in result
