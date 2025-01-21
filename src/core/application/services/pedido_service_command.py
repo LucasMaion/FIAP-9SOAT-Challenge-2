@@ -20,7 +20,11 @@ class PedidoServiceCommand(IPedidoCommand):
             raise ValueError("Pedido não possui pagamento efetuado.")
         if not pedido.purchase.selected_products:
             raise ValueError("Pedido não possui produtos.")
-        if not pedido.payment or pedido.payment.status != PagamentoStatus.PAGO:
+        if not pedido.payments or not [
+            payment
+            for payment in pedido.payments
+            if payment.status == PagamentoStatus.PAGO
+        ]:
             raise ValueError("Pedido não possui pagamento efetuado.")
         if pedido.purchase.total.value == 0:
             raise ValueError("Valor do pedido é zero.")

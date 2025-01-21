@@ -36,10 +36,8 @@ class OrmPedidoRepository(OrmRepository, PedidoRepository):
         self.cache_service.set(pedido_aggregate.purchase.id, pedido_aggregate)
         return PedidoAggregateDataMapper.from_db_to_domain(purchase)
 
-    def update(
-        self, pedido: CompraEntity, payment: Optional[PagamentoEntity] = None
-    ) -> PedidoAggregate:
-        db_item = CompraEntityDataMapper.from_domain_to_db(pedido, payment)
+    def update(self, pedido: CompraEntity) -> PedidoAggregate:
+        db_item = CompraEntityDataMapper.from_domain_to_db(pedido)
         purchase_selected_products = db_item.pop("purchase_selected_products", [])
         current_purchase: Union[PedidoAggregate, None] = self.cache_service.get(
             pedido.id
@@ -76,9 +74,7 @@ class OrmPedidoRepository(OrmRepository, PedidoRepository):
                 PurchaseSelectedProducts.purchase << selected_products_to_delete
             ).execute()
         self._create_purchase_selected_products(pedido.id, new_selected_products)
-        pedido_aggregate = PedidoAggregateDataMapper.from_db_to_domain(
-            Purchase.get(Purchase.id == db_item["id"])
-        )
+        pedido_aggregate = OrmPedidoQuery().get(db_item["id"])
         self.cache_service.set(pedido_aggregate.purchase.id, pedido_aggregate)
         return pedido_aggregate
 

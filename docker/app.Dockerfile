@@ -10,12 +10,12 @@ ENV PATH="/root/.local/bin:${PATH}"
 ENV POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache 
+    POETRY_CACHE_DIR=/tmp/poetry_cache
 RUN python3 -m pip install poetry
 
 WORKDIR /app
 COPY builder.py app.py pyproject.toml ./
-RUN poetry lock --no-update && poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DI
+RUN poetry lock && poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DI
 
 FROM builder AS dev
 
@@ -24,7 +24,7 @@ COPY builder.py app.py pyproject.toml ./
 COPY ./migration ./migration
 COPY ./src ./src
 COPY ./tests ./tests
-RUN poetry lock --no-update && poetry install --no-root && rm -rf $POETRY_CACHE_DIR
+RUN poetry lock && poetry install --no-root && rm -rf $POETRY_CACHE_DIR
 EXPOSE 8000
 
 CMD ["poetry", "run", "uvicorn", "app:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]

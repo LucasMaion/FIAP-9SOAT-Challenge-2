@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fiap-9soat-challenge-1"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["Lucas Maion <lucasmgois@outlook.com>"]
 license = "MIT"
@@ -16,6 +16,7 @@ peewee = "^3.17.6"
 pydantic = "^2.9.2"
 loguru = "^0.7.2"
 schedule = "^1.2.2"
+requests = "^2.32.3"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -7,6 +7,8 @@ class MeioDePagamentoEntity(Entity):
     sys_name: str
     description: str
     is_active: bool
+    internal_comm_method_name: Optional[str] = None
+    internal_comm_delay: Optional[int] = None
 
 
 class PartialMeioDePagamentoEntity(PartialEntity, MeioDePagamentoEntity):

@@ -184,7 +184,7 @@ class TestPedidoService:
     ):
         return PedidoAggregate(
             purchase=compra_entity,
-            payment=pagamento_entity,
+            payments=[pagamento_entity],
         )
 
     def test_create_purchase_successfully(
@@ -371,7 +371,7 @@ class TestPedidoService:
         self, purchase_service: PedidoServiceCommand, pedido_aggregate: PedidoAggregate
     ):
         purchase = deepcopy(pedido_aggregate)
-        purchase.payment = None
+        purchase.payments = None
         purchase_service.purchase_repository.get_by_purchase_id = MagicMock(
             return_value=purchase
         )
@@ -382,13 +382,13 @@ class TestPedidoService:
         self, purchase_service: PedidoServiceCommand, pedido_aggregate: PedidoAggregate
     ):
         purchase = deepcopy(pedido_aggregate)
-        purchase.payment.status = PagamentoStatus.PENDENTE
+        purchase.payments[0].status = PagamentoStatus.PENDENTE
         purchase_service.purchase_repository.get_by_purchase_id = MagicMock(
             return_value=purchase
         )
         with pytest.raises(ValueError, match="Pedido não possui pagamento efetuado."):
             purchase_service.concludes_pedido(1)
-        purchase.payment.status = PagamentoStatus.CANCELADO
+        purchase.payments[0].status = PagamentoStatus.CANCELADO
         with pytest.raises(ValueError, match="Pedido não possui pagamento efetuado."):
             purchase_service.concludes_pedido(1)
 

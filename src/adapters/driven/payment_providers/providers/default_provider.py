@@ -7,5 +7,11 @@ from src.core.domain.entities.pagamento_entity import PagamentoEntity
 
 class DefaultPaymentProvider(PaymentProvider):
 
-    def process_payment(self, compra: CompraEntity) -> PagamentoEntity:
+    def initiate_payment(self, compra: CompraEntity) -> PagamentoEntity:
+        return True
+
+    def cancel_payment(self, payment: PagamentoEntity) -> PagamentoEntity:
+        return True
+
+    def finalize_payment(self, payment: PagamentoEntity) -> PagamentoEntity:
         return True
